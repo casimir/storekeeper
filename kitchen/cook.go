@@ -2,7 +2,7 @@ package kitchen
 
 import (
 	"errors"
-	"github.com/chibibi/storekeeper/storage"
+	"github.com/casimir/storekeeper/storage"
 )
 
 type Cook struct {

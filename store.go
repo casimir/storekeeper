@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/chibibi/storekeeper/kitchen"
-	"github.com/chibibi/storekeeper/storage"
+	"github.com/casimir/storekeeper/kitchen"
+	"github.com/casimir/storekeeper/storage"
 )
 
 type Store interface {

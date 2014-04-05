@@ -36,7 +36,7 @@ func TestItemCount(t *testing.T) {
 		Convey("It should return the number of items", func() {
 			So(bag.Count("1"), ShouldEqual, 3)
 		})
-		Convey("When the item is not conatained it should return 0", func() {
+		Convey("When the item is not contained it should return 0", func() {
 			So(bag.Count("2"), ShouldBeZeroValue)
 		})
 	})

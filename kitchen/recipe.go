@@ -1,7 +1,7 @@
 package kitchen
 
 import (
-	"github.com/chibibi/storekeeper/storage"
+	"github.com/casimir/storekeeper/storage"
 )
 
 type Recipe struct {
