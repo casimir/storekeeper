@@ -3,8 +3,9 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/casimir/storekeeper/store/d3"
 	"os"
+
+	"github.com/casimir/storekeeper/store/d3"
 )
 
 const (

@@ -2,6 +2,7 @@ package kitchen
 
 import (
 	"errors"
+
 	"github.com/casimir/storekeeper/storage"
 )
 

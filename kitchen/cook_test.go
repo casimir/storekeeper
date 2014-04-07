@@ -1,9 +1,10 @@
 package kitchen
 
 import (
+	"testing"
+
 	"github.com/casimir/storekeeper/storage"
 	. "github.com/smartystreets/goconvey/convey"
-	"testing"
 )
 
 func TestCook(t *testing.T) {

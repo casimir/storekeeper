@@ -1,8 +1,8 @@
 package storage
 
 import (
-	. "github.com/smartystreets/goconvey/convey"
 	"testing"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestItemAddAndRemove(t *testing.T) {

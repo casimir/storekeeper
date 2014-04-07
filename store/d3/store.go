@@ -2,10 +2,11 @@ package d3
 
 import (
 	"encoding/json"
+	"log"
+
 	"github.com/casimir/storekeeper/kitchen"
 	"github.com/casimir/storekeeper/storage"
 	"github.com/casimir/storekeeper/store"
-	"log"
 )
 
 const (
