@@ -22,7 +22,7 @@ func getStore(storeID int) (Store, error) {
 
 func main() {
 	s, _ := getStore(StoreD3)
-	if err := s.Init(nil); err != nil {
+	if err := s.Update(nil); err != nil {
 		fmt.Printf("Init failed: %s\n", err.Error())
 		os.Exit(1)
 	}

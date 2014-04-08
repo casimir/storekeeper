@@ -6,8 +6,8 @@ import (
 )
 
 type Store interface {
-	Bag() *storage.Bag
+	Bag() (*storage.Bag, error)
 	Book() []kitchen.Recipe
 	Catalog() []storage.Item
-	Init(args map[string]string) error
+	Update(args map[string]string) error
 }

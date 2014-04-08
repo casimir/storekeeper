@@ -2,6 +2,7 @@ package d3
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 
 	"github.com/casimir/storekeeper/kitchen"
@@ -29,8 +30,8 @@ type Store struct {
 	catalog  []storage.Item
 }
 
-func (s Store) Bag() *storage.Bag {
-	return nil
+func (s Store) Bag() (*storage.Bag, error) {
+	return nil, errors.New("Not implemented yet")
 }
 
 func (s Store) Book() []kitchen.Recipe {
@@ -41,7 +42,7 @@ func (s Store) Catalog() []storage.Item {
 	return s.catalog
 }
 
-func (s *Store) Init(args map[string]string) error {
+func (s *Store) Update(args map[string]string) error {
 	s.initArtisans()
 	s.initItems()
 
