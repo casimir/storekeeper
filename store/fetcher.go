@@ -3,6 +3,7 @@ package store
 import (
 	"io/ioutil"
 	"net/http"
+	"sync"
 )
 
 type Response struct {
@@ -10,15 +11,39 @@ type Response struct {
 	Err  error
 }
 
-//TODO implementation with channels
 type Fetcher struct {
 }
 
-func (f Fetcher) Fetch(in []string) (out []Response) {
+func (f Fetcher) CFetch(in []string, nb int) (out []Response) {
+	sem := make(chan bool, nb)
+	for i := 0; i < nb; i++ {
+		sem <- true
+	}
+
+	outCh := make(chan Response)
+	var wg sync.WaitGroup
 	for _, url := range in {
-		out = append(out, f.Request(url))
+		wg.Add(1)
+		go func() {
+			<-sem
+			outCh <- f.Request(url)
+			sem <- true
+			wg.Done()
+		}()
+	}
+	go func() {
+		wg.Wait()
+		close(outCh)
+	}()
+
+	for r := range outCh {
+		out = append(out, r)
 	}
 	return out
+}
+
+func (f Fetcher) Fetch(in []string) []Response {
+	return f.CFetch(in, 3)
 }
 
 func (f Fetcher) Request(url string) Response {

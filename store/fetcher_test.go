@@ -14,13 +14,13 @@ func TestFetch(t *testing.T) {
 	Convey("Given a fetcher", t, func() {
 		f := Fetcher{}
 		Convey("It should fetch every url", func() {
-			in := []string{goodUrl, badUrl}
-
+			in := []string{goodUrl, badUrl, goodUrl, badUrl}
 			out := f.Fetch(in)
-			So(len(out), ShouldEqual, 2)
+			So(len(out), ShouldEqual, len(in))
 		})
 	})
 }
+
 func TestRequest(t *testing.T) {
 	Convey("Given a fetcher", t, func() {
 		f := Fetcher{}
