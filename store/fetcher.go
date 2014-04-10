@@ -14,7 +14,7 @@ type Response struct {
 type Fetcher struct {
 }
 
-func (f Fetcher) CFetch(in []string, nb int) (out []Response) {
+func (f Fetcher) cFetch(in []string, nb int) (out []Response) {
 	sem := make(chan bool, nb)
 	for i := 0; i < nb; i++ {
 		sem <- true
@@ -43,7 +43,7 @@ func (f Fetcher) CFetch(in []string, nb int) (out []Response) {
 }
 
 func (f Fetcher) Fetch(in []string) []Response {
-	return f.CFetch(in, 3)
+	return f.cFetch(in, http.DefaultMaxIdleConnsPerHost)
 }
 
 func (f Fetcher) Request(url string) Response {
