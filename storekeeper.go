@@ -1,30 +1,40 @@
 package main
 
 import (
-	"errors"
-	"fmt"
+	"log"
 	"os"
+	"os/user"
 
+	"github.com/casimir/storekeeper/store"
 	"github.com/casimir/storekeeper/store/d3"
 )
 
-const (
-	StoreD3 = iota
-)
+func init() {
+	os.Mkdir(ApplicationPath(), 0755)
+	os.Mkdir(ApplicationPath()+"/db", 0755)
+}
 
-func getStore(storeID int) (Store, error) {
-	switch storeID {
-	case StoreD3:
-		return new(d3.Store), nil
+func ApplicationPath() string {
+	usr, err := user.Current()
+	if err != nil {
+		panic(err)
 	}
-	return nil, errors.New("Unknown store type")
+	return usr.HomeDir + "/.storekeeper"
 }
 
 func main() {
-	s, _ := getStore(StoreD3)
-	if err := s.Update(nil); err != nil {
-		fmt.Printf("Init failed: %s\n", err.Error())
-		os.Exit(1)
-	}
-	fmt.Printf("Book loaded - %d items\n", len(s.Book()))
+	p := d3.D3Provider{}
+	s := p.Store()
+	r := &store.Reserve{}
+	r.Init(d3.StoreName)
+	log.Print("Saving data...")
+	r.Save(s)
+	log.Print("Store saved to database")
+
+	log.Print("loading data...")
+	loadedStore := r.Load()
+	log.Println("Store loaded from database")
+	log.Printf("- %d artisans\n", len(loadedStore.Artisans))
+	log.Printf("- %d recipes\n", len(loadedStore.Book))
+	log.Printf("- %d items\n", len(loadedStore.Catalog))
 }

@@ -47,7 +47,7 @@ func TestMissingIngredients(t *testing.T) {
 			So(len(cook.MissingIngredients(makeCookableRecipe())), ShouldBeZeroValue)
 		})
 		Convey("When the recipe can not be cooked it should return a slice containing the missing ingredients", func() {
-			expected := []storage.Stack{{97, storage.Item{Id: "1"}}}
+			expected := []storage.Stack{{Count: 97, Item: storage.Item{Id: "1"}}}
 			So(cook.MissingIngredients(makeNotCookableRecipe()), ShouldResemble, expected)
 		})
 	})
@@ -63,10 +63,10 @@ func makeCookableRecipe() Recipe {
 	return Recipe{
 		Id: "cookable",
 		Ingredients: []storage.Stack{
-			{2, storage.Item{Id: "1"}},
-			{3, storage.Item{Id: "2"}},
+			{Count: 2, Item: storage.Item{Id: "1"}},
+			{Count: 3, Item: storage.Item{Id: "2"}},
 		},
-		Out: storage.Stack{1, storage.Item{Id: "10"}},
+		Out: storage.Stack{Count: 1, Item: storage.Item{Id: "10"}},
 	}
 }
 
@@ -74,9 +74,9 @@ func makeNotCookableRecipe() (r Recipe) {
 	return Recipe{
 		Id: "not_cookable",
 		Ingredients: []storage.Stack{
-			{99, storage.Item{Id: "1"}},
-			{3, storage.Item{Id: "2"}},
+			{Count: 99, Item: storage.Item{Id: "1"}},
+			{Count: 3, Item: storage.Item{Id: "2"}},
 		},
-		Out: storage.Stack{1, storage.Item{Id: "10"}},
+		Out: storage.Stack{Count: 1, Item: storage.Item{Id: "10"}},
 	}
 }

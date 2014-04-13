@@ -72,22 +72,32 @@ func (a Artisan) ToBook() (book []kitchen.Recipe) {
 	for _, tier := range a.Training["tiers"] {
 		for _, lvl := range tier.Levels {
 			for _, r := range lvl.TrainedRecipes {
-				book = append(book, kitchen.Recipe{
-					Id:   r.Id,
-					Name: r.Name,
-				})
+				book = append(book, r.normalize())
 			}
 			for _, r := range lvl.TaughtRecipes {
-				book = append(book, kitchen.Recipe{
-					Id:   r.Id,
-					Name: r.Name,
-				})
+				book = append(book, r.normalize())
 			}
 		}
 	}
 	return
 }
 
-func (a Artisan) ToCatalog() (catalog []storage.Item) {
-	return
+func (i Item) normalize() storage.Item {
+	return storage.Item{i.Id, i.Name}
+}
+
+func (r Recipe) normalize() kitchen.Recipe {
+	ret := kitchen.Recipe{
+		Id:          r.Id,
+		Ingredients: []storage.Stack{},
+		Name:        r.Name,
+		Out:         storage.Stack{1, r.ItemProduced.normalize()},
+	}
+
+	for _, it := range r.Reagents {
+		s := storage.Stack{it.Quantity, it.Item.normalize()}
+		ret.Ingredients = append(ret.Ingredients, s)
+	}
+
+	return ret
 }
