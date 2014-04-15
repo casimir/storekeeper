@@ -1,8 +1,8 @@
 package store
 
 import (
-	"testing"
 	. "github.com/smartystreets/goconvey/convey"
+	"testing"
 )
 
 const (
@@ -11,7 +11,7 @@ const (
 )
 
 func TestFetch(t *testing.T) {
-	Convey("Given a fetcher", t, func() {
+	Convey("Given several URLs", t, func() {
 		f := Fetcher{}
 		Convey("It should fetch every url", func() {
 			in := []string{goodUrl, badUrl, goodUrl, badUrl}
@@ -22,9 +22,9 @@ func TestFetch(t *testing.T) {
 }
 
 func TestRequest(t *testing.T) {
-	Convey("Given a fetcher", t, func() {
+	Convey("Given an URL", t, func() {
 		f := Fetcher{}
-		Convey("It should fetch an url", func() {
+		Convey("It should fetch it", func() {
 			out := f.Request(goodUrl)
 			So(out.Body, ShouldNotBeEmpty)
 			So(out.Err, ShouldBeNil)

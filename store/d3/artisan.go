@@ -3,6 +3,7 @@ package d3
 import (
 	"github.com/casimir/storekeeper/kitchen"
 	"github.com/casimir/storekeeper/storage"
+	"github.com/casimir/storekeeper/util"
 )
 
 type Artisan struct {
@@ -68,14 +69,22 @@ func (a Artisan) ItemData() (data []string) {
 	return
 }
 
-func (a Artisan) ToBook() (book []kitchen.Recipe) {
+func (a Artisan) ToBook(items *util.StringSet) (book []kitchen.Recipe) {
 	for _, tier := range a.Training["tiers"] {
 		for _, lvl := range tier.Levels {
 			for _, r := range lvl.TrainedRecipes {
 				book = append(book, r.normalize())
+				items.Add(r.ItemProduced.Id)
+				for _, it := range r.Reagents {
+					items.Add(it.Item.Id)
+				}
 			}
 			for _, r := range lvl.TaughtRecipes {
 				book = append(book, r.normalize())
+				items.Add(r.ItemProduced.Id)
+				for _, it := range r.Reagents {
+					items.Add(it.Item.Id)
+				}
 			}
 		}
 	}

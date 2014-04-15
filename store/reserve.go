@@ -56,6 +56,11 @@ func (r Reserve) Load() *Store {
 		log.Printf("Failed to load recipes: %s\n", err)
 		err = nil
 	}
+	_, err = r.dbm.Select(&s.Catalog, "select * from items")
+	if err != nil {
+		log.Printf("Failed to load items: %s\n", err)
+		err = nil
+	}
 	return s
 }
 
@@ -67,7 +72,12 @@ func (r Reserve) Save(s *Store) {
 	}
 	for _, b := range s.Book {
 		if err := r.dbm.Insert(&b); err != nil {
-			log.Printf("Error while saving artisans: %s", err.Error())
+			log.Printf("Error while saving recipes: %s", err.Error())
+		}
+	}
+	for _, c := range s.Catalog {
+		if err := r.dbm.Insert(&c); err != nil {
+			log.Printf("Error while saving catalog: %s", err.Error())
 		}
 	}
 }
@@ -94,7 +104,6 @@ func (c converter) FromDb(target interface{}) (gorp.CustomScanner, bool) {
 			if !ok {
 				return errors.New("Error while loading Stack type")
 			}
-			log.Printf("-> %s", s)
 			return json.Unmarshal([]byte(*s), target)
 		}
 		return gorp.CustomScanner{new(string), target, binder}, true

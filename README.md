@@ -5,17 +5,16 @@ Storekeeper
 
 A generic crafting assistant. Note that this is still a work in progress.
 
-### What now
+### Done
 
-* [x] JSON API Fetcher
-* [x] Artisans management
-* [x] Recipes management
-* [ ] Items management
-* [x] Bag management
-* [ ] StoreProvider (game abstraction)
-* [ ] Storage management
+*  JSON API Fetcher
+*  Artisans storage
+*  Recipes storage
+*  Items storage
+*  Bag management
+*  StoreProvider (game abstraction)
 
-### What next
+### Doing
 
 * Basic UI
 * Recipes feasibility
