@@ -1,7 +1,7 @@
 Storekeeper
 ===========
 
-[![Build Status](https://travis-ci.org/casimir/simpleDeadlines.svg?branch=devel)](https://travis-ci.org/casimir/storekeeper)
+[![Build Status](https://travis-ci.org/casimir/storekeeper.svg?branch=master)](https://travis-ci.org/casimir/storekeeper) [![Coverage Status](https://coveralls.io/repos/casimir/storekeeper/badge.png)](https://coveralls.io/r/casimir/storekeeper)
 
 A generic crafting assistant. Note that this is still a work in progress.
 
