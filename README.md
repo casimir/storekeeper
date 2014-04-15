@@ -1,7 +1,9 @@
 Storekeeper
 ===========
 
-A generic crafting assistant.
+[![Build Status](https://travis-ci.org/casimir/simpleDeadlines.svg?branch=devel)](https://travis-ci.org/casimir/storekeeper)
+
+A generic crafting assistant. Note that this is still a work in progress.
 
 # What now
 
