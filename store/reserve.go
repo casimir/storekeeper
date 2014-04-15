@@ -6,28 +6,23 @@ import (
 	"errors"
 	"log"
 	"os"
-	"os/user"
 
 	"github.com/casimir/storekeeper/kitchen"
 	"github.com/casimir/storekeeper/storage"
+	"github.com/casimir/storekeeper/util"
 	"github.com/coopernurse/gorp"
 	_ "github.com/mattn/go-sqlite3"
 )
+
+var dbDir = util.ApplicationPath() + "/db"
 
 type Reserve struct {
 	dbm *gorp.DbMap
 }
 
-func ApplicationPath() string {
-	usr, err := user.Current()
-	if err != nil {
-		panic(err)
-	}
-	return usr.HomeDir + "/.storekeeper"
-}
-
 func (r *Reserve) Init(storeName string) {
-	dbPath := ApplicationPath() + "/db/" + storeName + ".db"
+	os.MkdirAll(dbDir, 0755)
+	dbPath := dbDir + "/" + storeName + ".db"
 	os.Remove(dbPath)
 	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
