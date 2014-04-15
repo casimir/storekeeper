@@ -11,6 +11,7 @@ install:
 
     - go get github.com/coopernurse/gorp
     - go get github.com/mattn/go-sqlite3
+    - go get github.com/smartystreets/goconvey/convey
 
 #script:
     #- go test -covermode=count -coverprofile=profile.cov
