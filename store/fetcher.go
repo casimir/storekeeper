@@ -12,6 +12,7 @@ type Response struct {
 }
 
 type Fetcher struct {
+	Prefix string
 }
 
 func (f Fetcher) cFetch(in []string, nb int) (out []Response) {
@@ -23,10 +24,11 @@ func (f Fetcher) cFetch(in []string, nb int) (out []Response) {
 	outCh := make(chan Response)
 	var wg sync.WaitGroup
 	for _, url := range in {
+		req := url
 		wg.Add(1)
 		go func() {
 			<-sem
-			outCh <- f.Request(url)
+			outCh <- f.Request(req)
 			sem <- true
 			wg.Done()
 		}()
@@ -47,7 +49,7 @@ func (f Fetcher) Fetch(in []string) []Response {
 }
 
 func (f Fetcher) Request(url string) Response {
-	resp, err := http.Get(url)
+	resp, err := http.Get(f.Prefix + url)
 	if err != nil {
 		return Response{Err: err}
 	}

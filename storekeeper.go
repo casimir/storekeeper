@@ -9,7 +9,9 @@ import (
 
 func main() {
 	p := d3.D3Provider{}
+	log.Print("Fetching data...")
 	s := p.Store()
+	log.Print("Store fetched")
 	r := &store.Reserve{}
 	r.Init(d3.StoreName)
 	log.Print("Saving data...")

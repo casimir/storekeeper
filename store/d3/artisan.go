@@ -49,26 +49,6 @@ type Item struct {
 	TooltipParams string
 }
 
-func (a Artisan) ItemData() (data []string) {
-	for _, tier := range a.Training["tiers"] {
-		for _, lvl := range tier.Levels {
-			for _, r := range lvl.TrainedRecipes {
-				for _, s := range r.Reagents {
-					data = append(data, s.Item.TooltipParams)
-				}
-				data = append(data, r.ItemProduced.TooltipParams)
-			}
-			for _, r := range lvl.TaughtRecipes {
-				for _, s := range r.Reagents {
-					data = append(data, s.Item.TooltipParams)
-				}
-				data = append(data, r.ItemProduced.TooltipParams)
-			}
-		}
-	}
-	return
-}
-
 func (a Artisan) ToBook(items *util.StringSet) (book []kitchen.Recipe) {
 	for _, tier := range a.Training["tiers"] {
 		for _, lvl := range tier.Levels {

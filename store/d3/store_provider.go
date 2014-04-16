@@ -43,9 +43,9 @@ func (p *D3Provider) initArtisans() {
 		{"jeweler", "Jeweler", StoreName},
 	}
 
-	f := store.Fetcher{}
+	f := store.Fetcher{apiHostEU + apiArtisan}
 	for _, it := range p.store.Artisans {
-		resp := f.Request(apiHostEU + apiArtisan + it.Id)
+		resp := f.Request(it.Id)
 		if resp.Err != nil {
 			log.Printf("Failed to get artisan information: %s", resp.Err)
 			continue
@@ -61,9 +61,8 @@ func (p *D3Provider) initArtisans() {
 }
 
 func (p *D3Provider) initItems() {
-	f := store.Fetcher{}
-	for _, id := range p.itemQueue.StringSlice {
-		resp := f.Request(apiHostEU + apiItem + id)
+	f := store.Fetcher{apiHostEU + apiItem}
+	for _, resp := range f.Fetch(p.itemQueue.StringSlice) {
 		if resp.Err != nil {
 			log.Printf("Failed to get item information: %s", resp.Err)
 			continue
