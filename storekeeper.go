@@ -12,8 +12,7 @@ func main() {
 	log.Print("Fetching data...")
 	s := p.Store()
 	log.Print("Store fetched")
-	r := &store.Reserve{}
-	r.Init(d3.StoreName)
+	r := store.NewReserve(d3.StoreName)
 	log.Print("Saving data...")
 	r.Save(s)
 	log.Print("Store saved to database")

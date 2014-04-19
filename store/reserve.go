@@ -20,23 +20,41 @@ type Reserve struct {
 	dbm *gorp.DbMap
 }
 
-func (r *Reserve) Init(storeName string) {
+func init() {
 	os.MkdirAll(dbDir, 0755)
-	dbPath := dbDir + "/" + storeName + ".db"
-	os.Remove(dbPath)
-	db, err := sql.Open("sqlite3", dbPath)
+}
+
+func dbPath(name string) string {
+	return dbDir + "/" + name + ".db"
+}
+
+func Remove(storeName string) {
+	os.Remove(dbPath(storeName))
+}
+
+func NewReserve(storeName string) *Reserve {
+	db, err := sql.Open("sqlite3", dbPath(storeName))
 	if err != nil {
 		panic(err)
 	}
-	r.dbm = &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}, TypeConverter: converter{}}
+	ret := &Reserve{
+		&gorp.DbMap{
+			Db:            db,
+			Dialect:       gorp.SqliteDialect{},
+			TypeConverter: converter{},
+		},
+	}
+	if ret.init() != nil {
+		panic(err)
+	}
+	return ret
+}
 
+func (r *Reserve) init() error {
 	r.dbm.AddTableWithName(Artisan{}, "artisans").SetKeys(false, "Id")
 	r.dbm.AddTableWithName(storage.Item{}, "items").SetKeys(false, "Id")
 	r.dbm.AddTableWithName(kitchen.Recipe{}, "recipes").SetKeys(false, "Id")
-
-	if err := r.dbm.CreateTablesIfNotExists(); err != nil {
-		panic(err)
-	}
+	return r.dbm.CreateTablesIfNotExists()
 }
 
 func (r Reserve) Load() *Store {
