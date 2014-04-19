@@ -28,7 +28,7 @@ func dbPath(name string) string {
 	return dbDir + "/" + name + ".db"
 }
 
-func Remove(storeName string) {
+func DeleteReserve(storeName string) {
 	os.Remove(dbPath(storeName))
 }
 
