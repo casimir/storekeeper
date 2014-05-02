@@ -5,16 +5,16 @@ A generic crafting assistant. Note that this is still a work in progress.
 
 ### Done
 
-*  JSON API Fetcher
-*  Artisans storage
-*  Recipes storage
-*  Items storage
-*  Bag management
-*  StoreProvider (game abstraction)
+* JSON API Fetcher
+* Artisans storage
+* Recipes storage
+* Items storage
+* Bag management
+* StoreProvider (game abstraction)
+* Recipes feasibility
 
 ### Doing
 
 * Basic UI
-* Recipes feasibility
 * Recursive recipes feasibility
 * Support more games
