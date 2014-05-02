@@ -3,9 +3,6 @@ package util
 import "os/user"
 
 func ApplicationPath() string {
-	usr, err := user.Current()
-	if err != nil {
-		panic(err)
-	}
+	usr, _ := user.Current()
 	return usr.HomeDir + "/.storekeeper"
 }
