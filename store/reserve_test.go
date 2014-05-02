@@ -22,8 +22,9 @@ func TestReserveLifecycle(t *testing.T) {
 	name := "test"
 	Convey("Given a store name", t, func() {
 		Convey("It should be able to create the reserve", func() {
-			NewReserve(name)
+			r := NewReserve(name)
 			So(fileExists(dbPath(name)), ShouldBeTrue)
+			r.dbm.Db.Close()
 		})
 		Convey("It should be able to delete the reserve", func() {
 			DeleteReserve(name)
