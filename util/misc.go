@@ -1,8 +1,19 @@
 package util
 
-import "os/user"
+import (
+	"os"
+	"runtime"
+)
 
 func ApplicationPath() string {
-	usr, _ := user.Current()
-	return usr.HomeDir + "/.storekeeper"
+	switch runtime.GOOS {
+	case "darwin":
+		return os.Getenv("HOME") + "/Library/Application Support/storekeeper"
+	case "linux":
+		return os.Getenv("HOME") + "/.storekeeper"
+	case "windows":
+		return os.Getenv("APPDATA") + "/storekeeper"
+	default:
+		return os.Getenv("TMP") + "/storekeeper"
+	}
 }
