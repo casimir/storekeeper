@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	p := d3.D3Provider{}
+	p := d3.Provider{}
 	log.Print("Fetching data...")
 	s := p.Store()
 	log.Print("Store fetched")

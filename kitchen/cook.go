@@ -16,15 +16,15 @@ func (c Cook) Cook(r Recipe) error {
 	}
 
 	for _, v := range r.Ingredients {
-		c.bag.RemoveItem(v.Count, v.Item.Id)
+		c.bag.RemoveItem(v.Count, v.Item.ID)
 	}
-	c.bag.AddItem(r.Out.Count, r.Out.Item.Id)
+	c.bag.AddItem(r.Out.Count, r.Out.Item.ID)
 	return nil
 }
 
 func (c Cook) IsCookable(r Recipe) bool {
 	for _, v := range r.Ingredients {
-		if v.Count > c.bag.Count(v.Item.Id) {
+		if v.Count > c.bag.Count(v.Item.ID) {
 			return false
 		}
 	}
@@ -38,7 +38,7 @@ func (c Cook) MissingIngredients(r Recipe) []storage.Stack {
 
 	ret := []storage.Stack{}
 	for _, v := range r.Ingredients {
-		if missing := v.Count - c.bag.Count(v.Item.Id); missing > 0 {
+		if missing := v.Count - c.bag.Count(v.Item.ID); missing > 0 {
 			v.Count = missing
 			ret = append(ret, v)
 		}

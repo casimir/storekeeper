@@ -11,7 +11,7 @@ import (
 	"github.com/casimir/storekeeper/storage"
 	"github.com/casimir/storekeeper/util"
 	"github.com/coopernurse/gorp"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/mattn/go-sqlite3" // SQlite connection driver
 )
 
 var dbDir = util.ApplicationPath() + "/db"

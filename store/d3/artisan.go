@@ -77,7 +77,7 @@ func (i Item) normalize() storage.Item {
 
 func (r Recipe) normalize() kitchen.Recipe {
 	ret := kitchen.Recipe{
-		Id:          r.Id,
+		ID:          r.Id,
 		Ingredients: []storage.Stack{},
 		Name:        r.Name,
 		Out:         storage.Stack{1, r.ItemProduced.normalize()},

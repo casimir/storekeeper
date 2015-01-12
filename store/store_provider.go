@@ -1,5 +1,5 @@
 package store
 
-type StoreProvider interface {
+type Provider interface {
 	Store() (*Store, error)
 }

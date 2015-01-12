@@ -41,7 +41,7 @@ func TestStoreSAveAndLoad(t *testing.T) {
 func TestDBConversion(t *testing.T) {
 	jsonEmpty := "[]"
 	sliceEmpty := []storage.Stack{}
-	json := "[{\"Count\":1,\"Item\":{\"Id\":\"id1\",\"Name\":\"id1\"}},{\"Count\":2,\"Item\":{\"Id\":\"id2\",\"Name\":\"id2\"}}]"
+	json := "[{\"Count\":1,\"Item\":{\"ID\":\"id1\",\"Name\":\"id1\"}},{\"Count\":2,\"Item\":{\"ID\":\"id2\",\"Name\":\"id2\"}}]"
 	slice := []storage.Stack{{1, storage.Item{"id1", "id1"}}, {2, storage.Item{"id2", "id2"}}}
 
 	resEmpty := stackToDb(sliceEmpty)

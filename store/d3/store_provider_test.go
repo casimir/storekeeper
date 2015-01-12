@@ -2,8 +2,8 @@ package d3
 
 import (
 	"encoding/json"
-	"testing"
 	. "github.com/smartystreets/goconvey/convey"
+	"testing"
 )
 
 var rawRecipe = []byte("{ \"id\" : \"GemCombine_Amethyst_01_02\", \"slug\" : \"flawed-amethyst\", \"name\" : \"Flawed Amethyst\", \"cost\" : 10, \"reagents\" : [ { \"quantity\" : 2, \"item\" : { \"id\" : \"Amethyst_01\", \"name\" : \"Chipped Amethyst\", \"icon\" : \"amethyst_01_demonhunter_male\", \"displayColor\" : \"blue\", \"tooltipParams\" : \"item/chipped-amethyst\" } } ], \"itemProduced\" : { \"id\" : \"Amethyst_02\", \"name\" : \"Flawed Amethyst\", \"icon\" : \"amethyst_02_demonhunter_male\", \"displayColor\" : \"blue\", \"tooltipParams\" : \"recipe/flawed-amethyst\" }}")
@@ -20,10 +20,10 @@ func TestUnmarshalRecipe(t *testing.T) {
 			So(tmp.ItemProduced.Name, ShouldEqual, "Flawed Amethyst")
 
 			recipe := tmp.normalize()
-			So(recipe.Id, ShouldEqual, tmp.Id)
+			So(recipe.ID, ShouldEqual, tmp.Id)
 			So(recipe.Name, ShouldEqual, tmp.Name)
 			So(len(recipe.Ingredients), ShouldEqual, len(tmp.Reagents))
-			So(recipe.Out.Item.Id, ShouldEqual, tmp.ItemProduced.Id)
+			So(recipe.Out.Item.ID, ShouldEqual, tmp.ItemProduced.Id)
 			So(recipe.Out.Item.Name, ShouldEqual, tmp.ItemProduced.Name)
 		})
 	})

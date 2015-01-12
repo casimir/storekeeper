@@ -24,20 +24,20 @@ var (
 	_locales = []string{"en", "fr"}
 )
 
-type D3Provider struct {
+type Provider struct {
 	d3Artisans []Artisan
 	itemQueue  util.StringSet
 	store      *store.Store
 }
 
-func (p *D3Provider) Store() *store.Store {
+func (p *Provider) Store() *store.Store {
 	p.store = &store.Store{}
 	p.initArtisans()
 	p.initItems()
 	return p.store
 }
 
-func (p *D3Provider) initArtisans() {
+func (p *Provider) initArtisans() {
 	p.store.Artisans = []store.Artisan{
 		{"blacksmith", "Blacksmith", StoreName},
 		{"jeweler", "Jeweler", StoreName},
@@ -45,7 +45,7 @@ func (p *D3Provider) initArtisans() {
 
 	f := store.Fetcher{apiHostEU + apiArtisan}
 	for _, it := range p.store.Artisans {
-		resp := f.Request(it.Id)
+		resp := f.Request(it.ID)
 		if resp.Err != nil {
 			log.Printf("Failed to get artisan information: %s", resp.Err)
 			continue
@@ -60,7 +60,7 @@ func (p *D3Provider) initArtisans() {
 	}
 }
 
-func (p *D3Provider) initItems() {
+func (p *Provider) initItems() {
 	f := store.Fetcher{apiHostEU + apiItem}
 	for _, resp := range f.Fetch(p.itemQueue.StringSlice) {
 		if resp.Err != nil {

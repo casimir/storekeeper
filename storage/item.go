@@ -1,7 +1,7 @@
 package storage
 
 type Item struct {
-	Id   string
+	ID   string `db:"Id"`
 	Name string
 }
 
