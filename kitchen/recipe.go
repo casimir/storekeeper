@@ -5,7 +5,7 @@ import (
 )
 
 type Recipe struct {
-	ID          string `db:"Id"`
+	ID          string
 	Ingredients []storage.Stack
 	Name        string
 	Out         storage.Stack

@@ -1,7 +1,7 @@
 package store
 
 type Artisan struct {
-	ID     string `db:"Id"`
+	ID     string
 	Label  string
 	Source string
 }

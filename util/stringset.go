@@ -2,8 +2,10 @@ package util
 
 import "sort"
 
+// StringSet is a set of sorted unique strings.
 type StringSet struct{ sort.StringSlice }
 
+// Add insert v in the set, Does nothing if the string is already present.
 func (s *StringSet) Add(v string) bool {
 	if i := s.Search(v); i >= s.Len() || v != s.StringSlice[i] {
 		s.insert(i, v)

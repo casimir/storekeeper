@@ -5,22 +5,28 @@ import (
 
 	"github.com/casimir/storekeeper/store"
 	"github.com/casimir/storekeeper/store/d3"
+	"github.com/casimir/storekeeper/store/hearthstone"
 )
 
-func main() {
-	p := d3.Provider{}
+func test(p store.Provider, name string) {
+	log.Println(name)
 	log.Print("Fetching data...")
 	s := p.Store()
 	log.Print("Store fetched")
-	r := store.NewReserve(d3.StoreName)
+	r := store.NewReserve(name)
 	log.Print("Saving data...")
 	r.Save(s)
 	log.Print("Store saved to database")
 
-	log.Print("loading data...")
+	log.Print("Loading data...")
 	loadedStore := r.Load()
 	log.Println("Store loaded from database")
 	log.Printf("- %d artisans\n", len(loadedStore.Artisans))
 	log.Printf("- %d recipes\n", len(loadedStore.Book))
 	log.Printf("- %d items\n", len(loadedStore.Catalog))
+}
+
+func main() {
+	test(d3.Provider{}, d3.StoreName)
+	test(hearthstone.Provider{}, hearthstone.StoreName)
 }

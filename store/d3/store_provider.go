@@ -15,13 +15,7 @@ const (
 	apiArtisan = "/api/d3/data/artisan/"
 	apiItem    = "/api/d3/data/item/"
 
-	argLocale = "locale"
-
 	StoreName = "D3"
-)
-
-var (
-	_locales = []string{"en", "fr"}
 )
 
 type Provider struct {
@@ -30,8 +24,8 @@ type Provider struct {
 	store      *store.Store
 }
 
-func (p *Provider) Store() *store.Store {
-	p.store = &store.Store{}
+func (p Provider) Store() *store.Store {
+	p.store = new(store.Store)
 	p.initArtisans()
 	p.initItems()
 	return p.store
@@ -45,13 +39,13 @@ func (p *Provider) initArtisans() {
 
 	f := store.Fetcher{apiHostEU + apiArtisan}
 	for _, it := range p.store.Artisans {
-		resp := f.Request(it.ID)
-		if resp.Err != nil {
-			log.Printf("Failed to get artisan information: %s", resp.Err)
+		r := f.Request(it.ID)
+		if r.Err != nil {
+			log.Printf("Failed to get artisan information: %s", r.Err)
 			continue
 		}
 		var a Artisan
-		err := json.Unmarshal(resp.Body, &a)
+		err := json.Unmarshal(r.Body, &a)
 		if err != nil {
 			log.Printf("Failed to get artisan information: %s", err)
 			continue

@@ -12,6 +12,7 @@ type Response struct {
 }
 
 type Fetcher struct {
+	// FIXME use format string
 	Prefix string
 }
 

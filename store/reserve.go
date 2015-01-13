@@ -14,24 +14,22 @@ import (
 	_ "github.com/mattn/go-sqlite3" // SQlite connection driver
 )
 
-var dbDir = util.ApplicationPath() + "/db"
-
-type Reserve struct {
-	dbm *gorp.DbMap
-}
-
 func init() {
 	os.MkdirAll(dbDir, 0755)
 }
+
+var dbDir = util.ApplicationPath() + "/db"
 
 func dbPath(name string) string {
 	return dbDir + "/" + name + ".db"
 }
 
-func DeleteReserve(storeName string) {
-	os.Remove(dbPath(storeName))
+// Reserve provides a way to persist a store.Store.
+type Reserve struct {
+	dbm *gorp.DbMap
 }
 
+// NewReserve create a reserve with the given name.
 func NewReserve(storeName string) *Reserve {
 	db, err := sql.Open("sqlite3", dbPath(storeName))
 	if err != nil {
@@ -51,12 +49,13 @@ func NewReserve(storeName string) *Reserve {
 }
 
 func (r *Reserve) init() error {
-	r.dbm.AddTableWithName(Artisan{}, "artisans").SetKeys(false, "Id")
-	r.dbm.AddTableWithName(storage.Item{}, "items").SetKeys(false, "Id")
-	r.dbm.AddTableWithName(kitchen.Recipe{}, "recipes").SetKeys(false, "Id")
+	r.dbm.AddTableWithName(Artisan{}, "artisans").SetKeys(false, "ID")
+	r.dbm.AddTableWithName(storage.Item{}, "items").SetKeys(false, "ID")
+	r.dbm.AddTableWithName(kitchen.Recipe{}, "recipes").SetKeys(false, "ID")
 	return r.dbm.CreateTablesIfNotExists()
 }
 
+// Load the Store from the Reserve.
 func (r Reserve) Load() *Store {
 	s := &Store{}
 	_, err := r.dbm.Select(&s.Artisans, "select * from artisans")
@@ -77,6 +76,7 @@ func (r Reserve) Load() *Store {
 	return s
 }
 
+// Save the store to the Reserve.
 func (r Reserve) Save(s *Store) {
 	for _, a := range s.Artisans {
 		if err := r.dbm.Insert(&a); err != nil {
@@ -94,6 +94,10 @@ func (r Reserve) Save(s *Store) {
 		}
 	}
 }
+
+// DeleteReserve delete a persisted store. Does nothing if the store does not
+// exist.
+func DeleteReserve(storeName string) { os.Remove(dbPath(storeName)) }
 
 type converter struct{}
 
