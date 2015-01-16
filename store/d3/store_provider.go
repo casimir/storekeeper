@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/casimir/storekeeper/store"
-	"github.com/casimir/storekeeper/util"
 )
 
 const (
@@ -20,7 +19,7 @@ const (
 
 type Provider struct {
 	d3Artisans []Artisan
-	itemQueue  util.StringSet
+	itemQueue  StringSet
 	store      *store.Store
 }
 

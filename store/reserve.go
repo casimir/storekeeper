@@ -10,7 +10,7 @@ import (
 	"github.com/casimir/storekeeper/util"
 )
 
-var dbDir = util.ApplicationPath() + "/data"
+var dbDir = util.ApplicationPath + "/data"
 
 func dbPath(name string) string {
 	return fmt.Sprintf("%s/%s.json", dbDir, name)

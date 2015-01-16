@@ -1,4 +1,4 @@
-package util
+package d3
 
 import "sort"
 

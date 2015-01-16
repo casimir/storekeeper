@@ -4,9 +4,21 @@ import (
 	"errors"
 )
 
-type Bag struct {
-	Items map[string]*Stack
-}
+type (
+	Item struct {
+		ID   string
+		Name string
+	}
+
+	Stack struct {
+		Count int
+		Item  Item
+	}
+
+	Bag struct {
+		Items map[string]*Stack
+	}
+)
 
 func (b *Bag) AddItem(count int, id string) error {
 	if b.Items == nil {

@@ -1,7 +1,8 @@
-package util
+package d3
 
 import (
 	"testing"
+
 	. "github.com/smartystreets/goconvey/convey"
 )
 

@@ -6,9 +6,18 @@ import (
 	"github.com/casimir/storekeeper/storage"
 )
 
-type Cook struct {
-	bag *storage.Bag
-}
+type (
+	Recipe struct {
+		ID          string
+		Ingredients []storage.Stack
+		Name        string
+		Out         storage.Stack
+	}
+
+	Cook struct {
+		bag *storage.Bag
+	}
+)
 
 func (c Cook) Cook(r Recipe) error {
 	if !c.IsCookable(r) {
