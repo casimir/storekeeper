@@ -2,18 +2,33 @@ package main
 
 import (
 	"log"
+	"os"
+	"runtime"
 
 	"github.com/casimir/storekeeper/store"
 	"github.com/casimir/storekeeper/store/d3"
 	"github.com/casimir/storekeeper/store/hearthstone"
 )
 
+var ApplicationPath string
+
+func init() {
+	switch runtime.GOOS {
+	case "darwin":
+		ApplicationPath = os.Getenv("HOME") + "/Library/Application Support/Storekeeper/"
+	case "windows":
+		ApplicationPath = os.Getenv("APPDATA") + "/Storekeeper/"
+	default:
+		ApplicationPath = os.Getenv("HOME") + "/.storekeeper/"
+	}
+}
+
 func test(p store.Provider, name string) {
 	log.Println(name)
 	log.Print("Fetching data...")
 	s := p.Store()
 	log.Print("Store fetched")
-	r := store.NewReserve(name)
+	r := store.NewReserve(ApplicationPath, name)
 	log.Print("Saving data...")
 	r.Save(s)
 	log.Print("Store saved to database")

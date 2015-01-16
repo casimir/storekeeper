@@ -8,20 +8,20 @@ import (
 )
 
 func TestStoreSaveAndLoad(t *testing.T) {
-	dbDir = "/tmp/data"
+	dbDir := os.TempDir()
 	name := "test"
-	r1 := NewReserve(name)
-	r2 := NewReserve(name)
+	r1 := NewReserve(dbDir, name)
+	r2 := NewReserve(dbDir, name)
 
 	Convey("A Store should be savable and loadable.", t, func() {
 		So(r1.Save(newMockStore()), ShouldBeNil)
-		So(fileExists(dbPath(name)), ShouldBeTrue)
+		So(fileExists(r1.path), ShouldBeTrue)
 		So(r2.Load(), ShouldResemble, newMockStore())
-		DeleteReserve(name)
-		So(fileExists(dbPath(name)), ShouldBeFalse)
+		r1.Delete()
+		So(fileExists(r1.path), ShouldBeFalse)
 	})
 	Convey("Reserve should handle invalid states", t, func() {
-		os.Remove(dbDir)
+		os.RemoveAll(dbDir)
 		So(r1.Save(newMockStore()), ShouldNotBeNil)
 		So(r1.Load(), ShouldResemble, &Store{})
 	})
