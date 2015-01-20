@@ -50,7 +50,7 @@ func (r Reserve) Delete() {
 
 // Load the Store from the Reserve.
 func (r *Reserve) Load() *Store {
-	ret := new(Store)
+	ret := NewStore()
 	data, err := ioutil.ReadFile(r.path)
 	if err != nil {
 		log.Printf("Failed to load store %s: %s\n", r.name, err)

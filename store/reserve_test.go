@@ -8,7 +8,7 @@ import (
 )
 
 func TestStoreSaveAndLoad(t *testing.T) {
-	dbDir := os.TempDir()
+	dbDir := os.TempDir() + "/"
 	name := "test"
 	r1 := NewReserve(dbDir, name)
 	r2 := NewReserve(dbDir, name)

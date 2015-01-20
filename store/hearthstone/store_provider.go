@@ -72,6 +72,10 @@ type Card struct {
 	HowToGetGold string
 }
 
+func (c Card) UID() string {
+	return c.ID
+}
+
 func (c Card) Match(other doable.Item) bool {
 	o, ok := other.(Card)
 	return ok && c.ID == o.ID
@@ -98,7 +102,7 @@ type Provider struct {
 }
 
 func (p Provider) Store() *store.Store {
-	p.store = new(store.Store)
+	p.store = store.NewStore()
 
 	f := store.Fetcher{}
 	r := f.Request(fmt.Sprintf(apiURL, DefaultLocale))

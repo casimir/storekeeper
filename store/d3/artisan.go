@@ -72,6 +72,10 @@ func (a Artisan) ToBook(items *StringSet) (book []*kitchen.Recipe) {
 	return
 }
 
+func (i Item) UID() string {
+	return i.Id
+}
+
 func (i Item) Match(other doable.Item) bool {
 	o, ok := other.(Item)
 	return ok && i.Id == o.Id

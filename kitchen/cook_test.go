@@ -51,6 +51,10 @@ type mockItem struct {
 	Name string
 }
 
+func (i mockItem) UID() string {
+	return i.ID
+}
+
 func (i mockItem) Match(other doable.Item) bool {
 	return i.ID == other.(mockItem).ID
 }
