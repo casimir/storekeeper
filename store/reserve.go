@@ -6,12 +6,31 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+
+	"github.com/casimir/doable"
+	"github.com/casimir/storekeeper/kitchen"
 )
 
-// Reserve provides a way to persist a Store.
-type Reserve struct {
-	name string
-	path string
+type (
+	Provider interface {
+		Store() *Store
+	}
+
+	Store struct {
+		Artisans []*Artisan
+		Book     []*kitchen.Recipe
+		Catalog  *doable.List
+	}
+
+	// Reserve provides a way to persist a Store.
+	Reserve struct {
+		name string
+		path string
+	}
+)
+
+func NewStore() *Store {
+	return &Store{Catalog: doable.NewList()}
 }
 
 // NewReserve create a reserve with the given name.

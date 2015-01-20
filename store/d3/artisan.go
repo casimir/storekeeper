@@ -1,8 +1,8 @@
 package d3
 
 import (
+	"github.com/casimir/doable"
 	"github.com/casimir/storekeeper/kitchen"
-	"github.com/casimir/storekeeper/storage"
 )
 
 type (
@@ -50,7 +50,7 @@ type (
 	}
 )
 
-func (a Artisan) ToBook(items *StringSet) (book []kitchen.Recipe) {
+func (a Artisan) ToBook(items *StringSet) (book []*kitchen.Recipe) {
 	for _, tier := range a.Training["tiers"] {
 		for _, lvl := range tier.Levels {
 			for _, r := range lvl.TrainedRecipes {
@@ -72,21 +72,26 @@ func (a Artisan) ToBook(items *StringSet) (book []kitchen.Recipe) {
 	return
 }
 
-func (i Item) normalize() storage.Item {
-	return storage.Item{i.Id, i.Name}
+func (i Item) Match(other doable.Item) bool {
+	o, ok := other.(Item)
+	return ok && i.Id == o.Id
 }
 
-func (r Recipe) normalize() kitchen.Recipe {
-	ret := kitchen.Recipe{
-		ID:          r.Id,
-		Ingredients: []storage.Stack{},
-		Name:        r.Name,
-		Out:         storage.Stack{1, r.ItemProduced.normalize()},
+func (r Recipe) normalize() *kitchen.Recipe {
+	ret := &kitchen.Recipe{
+		ID:   r.Id,
+		Name: r.Name,
+		Node: &doable.Node{
+			Item: r.ItemProduced,
+			Nb:   1,
+		},
 	}
 
 	for _, it := range r.Reagents {
-		s := storage.Stack{it.Quantity, it.Item.normalize()}
-		ret.Ingredients = append(ret.Ingredients, s)
+		ret.Node.AddDep(&doable.Node{
+			Item: it.Item,
+			Nb:   it.Quantity,
+		})
 	}
 
 	return ret

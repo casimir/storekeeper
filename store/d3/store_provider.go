@@ -24,14 +24,14 @@ type Provider struct {
 }
 
 func (p Provider) Store() *store.Store {
-	p.store = new(store.Store)
+	p.store = store.NewStore()
 	p.initArtisans()
 	p.initItems()
 	return p.store
 }
 
 func (p *Provider) initArtisans() {
-	p.store.Artisans = []store.Artisan{
+	p.store.Artisans = []*store.Artisan{
 		{"blacksmith", "Blacksmith", StoreName},
 		{"jeweler", "Jeweler", StoreName},
 	}
@@ -66,6 +66,6 @@ func (p *Provider) initItems() {
 			log.Printf("Failed to get item information: %s", err)
 			continue
 		}
-		p.store.Catalog = append(p.store.Catalog, item.normalize())
+		p.store.Catalog.Add(item)
 	}
 }

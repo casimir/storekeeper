@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/casimir/doable"
 	"github.com/casimir/storekeeper/kitchen"
-	"github.com/casimir/storekeeper/storage"
 	"github.com/casimir/storekeeper/store"
 )
 
@@ -72,25 +72,25 @@ type Card struct {
 	HowToGetGold string
 }
 
-func (c Card) toItem() storage.Item {
-	return storage.Item{ID: c.ID, Name: c.Name}
+func (c Card) Match(other doable.Item) bool {
+	o, ok := other.(Card)
+	return ok && c.ID == o.ID
 }
 
-func (c Card) toRecipe() kitchen.Recipe {
-	return kitchen.Recipe{
-		ID:          "recipe_" + c.ID,
-		Ingredients: dustStack(c.Cost),
-		Name:        c.Name,
-		Out:         storage.Stack{1, c.toItem()},
+func (c Card) toRecipe() *kitchen.Recipe {
+	r := &kitchen.Recipe{
+		ID:   c.ID,
+		Name: c.Name,
+		Node: &doable.Node{
+			Item: c,
+			Nb:   1,
+		},
 	}
-}
-
-func dustStack(n int) []storage.Stack {
-	s := storage.Stack{
-		Count: n,
-		Item:  storage.Item{ID: "dust", Name: "dust"},
-	}
-	return []storage.Stack{s}
+	r.Node.AddDep(&doable.Node{
+		Item: Card{ID: "dust", Name: "Dust"},
+		Nb:   c.Cost,
+	})
+	return r
 }
 
 type Provider struct {
@@ -101,7 +101,7 @@ func (p Provider) Store() *store.Store {
 	p.store = new(store.Store)
 
 	f := store.Fetcher{}
-	r := f.Request(localeURL(DefaultLocale))
+	r := f.Request(fmt.Sprintf(apiURL, DefaultLocale))
 	if r.Err != nil {
 		log.Fatalf("Failed to get cards: %s", r.Err)
 	}
@@ -112,14 +112,12 @@ func (p Provider) Store() *store.Store {
 	}
 
 	for set, cards := range sets {
-		p.store.Artisans = append(p.store.Artisans, store.Artisan{ID: set, Label: set})
+		p.store.Artisans = append(p.store.Artisans, &store.Artisan{ID: set, Label: set})
 		for _, it := range cards {
 			p.store.Book = append(p.store.Book, it.toRecipe())
-			p.store.Catalog = append(p.store.Catalog, it.toItem())
+			p.store.Catalog.Add(it)
 		}
 	}
 
 	return p.store
 }
-
-func localeURL(locale string) string { return fmt.Sprintf(apiURL, locale) }

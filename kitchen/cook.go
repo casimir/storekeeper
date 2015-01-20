@@ -3,54 +3,46 @@ package kitchen
 import (
 	"errors"
 
-	"github.com/casimir/storekeeper/storage"
+	"github.com/casimir/doable"
 )
 
 type (
 	Recipe struct {
-		ID          string
-		Ingredients []storage.Stack
-		Name        string
-		Out         storage.Stack
+		ID   string
+		Name string
+		Node *doable.Node
 	}
 
 	Cook struct {
-		bag *storage.Bag
+		recipe *Recipe
+		stock  *doable.List
 	}
 )
 
-func (c Cook) Cook(r Recipe) error {
-	if !c.IsCookable(r) {
+func NewCook(recipe *Recipe, stock *doable.List) *Cook {
+	return &Cook{
+		recipe: recipe,
+		stock:  stock,
+	}
+}
+
+func (c Cook) Cook() error {
+	t := doable.New(c.recipe.Node, c.stock)
+	if !t.Doable() {
 		return errors.New("cook: not enough ingredients for this recipe")
 	}
-
-	for _, v := range r.Ingredients {
-		c.bag.RemoveItem(v.Count, v.Item.ID)
-	}
-	c.bag.AddItem(r.Out.Count, r.Out.Item.ID)
 	return nil
 }
 
-func (c Cook) IsCookable(r Recipe) bool {
-	for _, v := range r.Ingredients {
-		if v.Count > c.bag.Count(v.Item.ID) {
-			return false
-		}
-	}
-	return true
+func (c Cook) IsCookable() bool {
+	t := doable.New(c.recipe.Node, c.stock.Clone())
+	return t.Doable()
 }
 
-func (c Cook) MissingIngredients(r Recipe) []storage.Stack {
-	if c.IsCookable(r) {
-		return []storage.Stack{}
+func (c Cook) MissingIngredients() *doable.List {
+	t := doable.New(c.recipe.Node, c.stock.Clone())
+	if t.Doable() {
+		return doable.NewList()
 	}
-
-	ret := []storage.Stack{}
-	for _, v := range r.Ingredients {
-		if missing := v.Count - c.bag.Count(v.Item.ID); missing > 0 {
-			v.Count = missing
-			ret = append(ret, v)
-		}
-	}
-	return ret
+	return t.Miss
 }

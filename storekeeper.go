@@ -38,7 +38,7 @@ func test(p store.Provider, name string) {
 	log.Println("Store loaded from database")
 	log.Printf("- %d artisans\n", len(loadedStore.Artisans))
 	log.Printf("- %d recipes\n", len(loadedStore.Book))
-	log.Printf("- %d items\n", len(loadedStore.Catalog))
+	log.Printf("- %d items\n", loadedStore.Catalog.Size())
 }
 
 func main() {

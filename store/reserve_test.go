@@ -28,9 +28,9 @@ func TestStoreSaveAndLoad(t *testing.T) {
 }
 
 func newMockStore() *Store {
-	artisans := []Artisan{
-		Artisan{ID: "id1", Label: "artisan1"},
-		Artisan{ID: "id2", Label: "artisan2"},
+	artisans := []*Artisan{
+		&Artisan{ID: "id1", Label: "artisan1"},
+		&Artisan{ID: "id2", Label: "artisan2"},
 	}
 	return &Store{Artisans: artisans}
 }
