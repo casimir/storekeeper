@@ -17,9 +17,6 @@ func TestCook(t *testing.T) {
 		So(cook.stock.Count(makeItem("1")), ShouldBeZeroValue)
 		So(cook.stock.Count(makeItem("10")), ShouldEqual, 1)
 	})
-	Convey("Cook should return errors on illegal actions", t, func() {
-		So(cook.Cook(), ShouldNotBeNil)
-	})
 }
 
 func TestRecipeCookable(t *testing.T) {
@@ -74,19 +71,10 @@ func makeCookableRecipe() *Recipe {
 	ret := &Recipe{
 		ID:   "cookable",
 		Name: "cookable",
-		Node: &doable.Node{
-			Item: makeItem("10"),
-			Nb:   1,
-		},
+		Node: &doable.Node{Item: makeItem("10"), Nb: 1},
 	}
-	ret.Node.AddDep(&doable.Node{
-		Item: makeItem("1"),
-		Nb:   2,
-	})
-	ret.Node.AddDep(&doable.Node{
-		Item: makeItem("2"),
-		Nb:   3,
-	})
+	ret.Node.AddDep(&doable.Node{Item: makeItem("1"), Nb: 2})
+	ret.Node.AddDep(&doable.Node{Item: makeItem("2"), Nb: 3})
 	return ret
 }
 
@@ -94,18 +82,9 @@ func makeNotCookableRecipe() *Recipe {
 	ret := &Recipe{
 		ID:   "not_cookable",
 		Name: "not_cookable",
-		Node: &doable.Node{
-			Item: makeItem("10"),
-			Nb:   1,
-		},
+		Node: &doable.Node{Item: makeItem("11"), Nb: 1},
 	}
-	ret.Node.AddDep(&doable.Node{
-		Item: makeItem("1"),
-		Nb:   99,
-	})
-	ret.Node.AddDep(&doable.Node{
-		Item: makeItem("2"),
-		Nb:   3,
-	})
+	ret.Node.AddDep(&doable.Node{Item: makeItem("1"), Nb: 99})
+	ret.Node.AddDep(&doable.Node{Item: makeItem("2"), Nb: 3})
 	return ret
 }
